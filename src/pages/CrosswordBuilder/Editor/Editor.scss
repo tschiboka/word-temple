@@ -1,0 +1,10 @@
+@use "../../../common/styles/palette.scss" as palette;
+
+
+.Editor {
+    height: 460px;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid palette.$black_3;
+    border-radius: 10px;
+}

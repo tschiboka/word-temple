@@ -1,4 +1,5 @@
 @use "./common/styles/palette.scss" as palette;
+@use "./common/styles/font_sizes" as font_sizes;
 
 html {
     max-width: 100vw;
@@ -13,6 +14,7 @@ html {
     font-weight: lighter;
     scrollbar-color: palette.$accent_dark_3 #888;
     scrollbar-width: thin;
+    font-variant: small-caps;
 }
 
 ::-webkit-scrollbar {
@@ -38,4 +40,20 @@ html {
 
 .scroll::-webkit-scrollbar-thumb {
     background: palette.$accent_dark_1;
+}
+
+h1, h2, p {
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: font_sizes.$font_lg;
+}
+
+h2 {
+    font-size: font_sizes.$font_md;
+}
+
+p {
+    text-align: center;
 }

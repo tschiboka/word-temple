@@ -6,6 +6,7 @@
 
 .Button {
     display: inline-block;
+    margin: 0 10px;
     padding: 10px 20px;
     font-size: font_sizes.$font_md;
     background-color: palette.$black_2;
@@ -21,12 +22,7 @@
         background-color: palette.$accent_dark_3;
     }
     
-    &:active {
-        background-color: #004085;
-    }
-    
     &.disabled {
-        background-color: #6c757d;
         cursor: not-allowed;
         pointer-events: none;
     }

@@ -1,7 +1,7 @@
-@use "./common/styles/palette.scss" as palette;
-@use "./common/styles/shadows.scss" as shadows;
+@use "../../common/styles/palette.scss" as palette;
+@use "../../common/styles/shadows.scss" as shadows;
 
-.App {
+.CrosswordBuilder {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -11,18 +11,27 @@
     color: palette.$white_1;
 }
 
-.AppContainer {
+.CrosswordBuilderContainer {
     max-width: 100vw;
     max-height: 100vh;
     width: 420px;
     height: 700px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     padding: 20px;
     background-color: palette.$black_1;
     border: 2px solid palette.$black_2;
     border-radius: 10px;
     box-shadow: shadows.dual-box-shadow(15px, 15px, 20px)
+}
+
+footer div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: palette.$white_1;
 }
