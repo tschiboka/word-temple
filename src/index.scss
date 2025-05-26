@@ -1,0 +1,41 @@
+@use "./common/styles/palette.scss" as palette;
+
+html {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto_Light, Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+    scrollbar-color: palette.$accent_dark_3 #888;
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: palette.$accent_dark_3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: palette.$accent_dark_1;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 4px;
+    transition: width 0.5s;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: palette.$accent_dark_1;
+}

@@ -1,0 +1,25 @@
+@use "./common/styles/palette.scss" as palette;
+@use "./common/styles/shadows.scss" as shadows;
+
+.App {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: palette.$black_2;
+}
+
+.AppContainer {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 420px;
+    height: 670px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: palette.$black_1;
+    border: 2px solid palette.$black_2;
+    border-radius: 10px;
+    box-shadow: shadows.dual-box-shadow(15px, 15px, 20px)
+}

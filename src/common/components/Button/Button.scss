@@ -1,0 +1,33 @@
+@use "../../styles/palette.scss" as palette;
+@use "../../styles/font_sizes.scss" as font_sizes;
+@use "../../styles/shadows.scss" as shadows;
+
+
+
+.Button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: font_sizes.$font_md;
+    background-color: palette.$black_2;
+    color: palette.$white_1;
+    border: 2px solid palette.$black_3;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: shadows.quad-box-shadow(15px, 15px, 20px);
+    
+    &:hover {
+        background-color: palette.$accent_dark_3;
+    }
+    
+    &:active {
+        background-color: #004085;
+    }
+    
+    &.disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
