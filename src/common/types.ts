@@ -42,9 +42,14 @@ export type Clue = {
     textPlacement: CellTextPlacement;        // Placement of the clue text relative to the cell                                               
 }
 
-export type CellTextPlacement = 'left' | 'right' | 'top' | 'bottom';
+export type CellTextPlacement = 'left' | 'right' | 'top' | 'bottom' | 'center'
 
 export type BoardDimensions = {
     colNumber: number;                       // Number of columns in the crossword (6-8)
     rowNumber: number;                       // Number of rows in the crossword (8-10)
+}
+
+export type Option<T> = {
+    label: string;
+    value: T;
 }

@@ -1,0 +1,20 @@
+@use "../../../styles/palette.scss" as palette;
+@use "../../../styles/font_sizes.scss" as font_sizes;
+
+.SolutionBox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid palette.$black_3;
+    background-color: palette.$black_1;
+    font-size: font_sizes.$font_lg;
+    color: palette.$white_3;
+
+    &:hover {
+        background-color: palette.$accent_dark_3;
+        border: inherit;
+        cursor: pointer;
+    }
+}

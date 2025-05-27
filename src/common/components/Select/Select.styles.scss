@@ -1,0 +1,68 @@
+@use "../../styles/palette.scss" as palette;
+@use "../../styles/font_sizes.scss" as font_sizes;
+@use "../../styles/shadows.scss" as shadows;
+
+.Select {
+    position: relative;
+    font-size: font_sizes.$font_sm;
+
+    input {
+        padding: 3px 10px;
+        background-color: palette.$black_1;
+        border: 1px solid palette.$black_3;
+        border-radius: 10px;
+        color: palette.$accent_dark_2;
+        font-size: font_sizes.$font_sm;
+        box-shadow: shadows.dual-box-shadow(15px, 15px, 20px);
+     
+        &:hover {
+            cursor: pointer;
+        }
+    
+        &:focus {
+            outline: none;
+        }
+    }
+
+    i {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        color: palette.$black_5;
+        pointer-events: none; // Prevents the icon from capturing mouse events
+    }
+
+    .SelectOptions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: palette.$black_1;
+        border: 1px solid palette.$black_3;
+        border-radius: 10px;
+        box-shadow: shadows.dual-box-shadow(15px, 15px, 20px);
+        z-index: 1000;
+
+        .SelectOption {
+            padding: 5px 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: palette.$accent_dark_3;
+            }
+        }
+    }
+}
+
+.Select--open {
+    .SelectInput--open {
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+    }
+    .SelectOptions {
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+    }
+}

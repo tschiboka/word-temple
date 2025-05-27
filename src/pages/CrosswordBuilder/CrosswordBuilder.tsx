@@ -1,20 +1,24 @@
-import { useNavigate } from 'react-router-dom'
 import { Button } from '../../common/components/Button/Button'
-import { defaultBoard } from '.'
-import './CrosswordBuilder.scss'
-import { Editor } from './Editor/Editor'
-import { pathBuilder } from '../../common/routing/pathBuilder'
-import { useQueryParams } from '../../common/utils/useQueryParams'
-import type { CrosswordBoardResource } from '../../common/types'
+import { Board, defaultBoard } from '../../common/components/Board'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useQueryParams } from '../../common/utils/useQueryParams'
+import { pathBuilder } from '../../common/routing/pathBuilder'
+import type { CrosswordBoardResource } from '../../common/types'
+import {
+    defaultEditFromState,
+    EditModal,
+    type EditFormState,
+} from './EditModal'
+import './CrosswordBuilder.styles.scss'
 
 export const CrosswordBuilder = () => {
     const navigate = useNavigate()
     const { id } = useQueryParams()
 
-    const [board, setBoard] = useState<CrosswordBoardResource | undefined>(
-        defaultBoard,
-    )
+    const [board, setBoard] = useState<CrosswordBoardResource>(defaultBoard)
+    const [editFormState, setEditFormState] =
+        useState<EditFormState>(defaultEditFromState)
 
     useEffect(() => {
         if (id) {
@@ -22,11 +26,17 @@ export const CrosswordBuilder = () => {
         }
     }, [id])
 
+    const editCell = (
+        cell: CrosswordBoardResource['cells'][number][number],
+    ) => {
+        setEditFormState({ isOpen: true, cell })
+    }
+
     return (
         <div className="CrosswordBuilder">
             <div className="CrosswordBuilderContainer">
                 <h1>Crossword Builder</h1>
-                <Editor crossword={board} />
+                <Board mode="edit" crossword={board} onClick={editCell} />
                 <footer>
                     <div>
                         <Button
@@ -53,6 +63,10 @@ export const CrosswordBuilder = () => {
                         />
                     </div>
                 </footer>
+                <EditModal
+                    initialFormState={editFormState}
+                    setFormState={setEditFormState}
+                />
             </div>
         </div>
     )

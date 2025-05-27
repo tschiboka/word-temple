@@ -1,4 +1,4 @@
-import type { Cell, CrosswordBoardResource } from "../../common/types";
+import type { Cell, CrosswordBoardResource } from "../../types";
 
 const DEFAULT_ROW_NUMBER = 10;
 const DEFAULT_COL_NUMBER = 8;
@@ -24,5 +24,5 @@ export const  defaultBoard: CrosswordBoardResource = {
             tags: [],
             language: 'en',
         },
-        cells: getDefaultCells(8, 10),
+        cells: getDefaultCells(DEFAULT_ROW_NUMBER, DEFAULT_COL_NUMBER),
     }
