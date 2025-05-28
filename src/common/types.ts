@@ -32,15 +32,15 @@ export type Cell = {
     colIndex: number;                        // Column index in the crossword
     role: 'empty' | 'clue' | 'solution';     // Role of the cell in the crossword (Empty is experimental and should be avoided)
     solution?: string;                       // Solution character for the cell (only for 'solution' role)   
-    clueAcross?: Clue;                       // Clue for the cell in the across direction
-    clueDown?: Clue;                         // Clue for the cell in the down direction
+    clueHorizontal?: Clue;                   // Clue for the cell in the across direction
+    clueVertical?: Clue;                     // Clue for the cell in the down direction
 }
 
 
 export type Clue = {
     text: string;                            // Clue text
     imageUrl?: string;                       // Optional image URL for the clue    
-    textPlacement: CellTextPlacement;        // Placement of the clue text relative to the cell                                               
+    textPlacement?: CellTextPlacement;       // Placement of the clue text relative to the cell                                               
 }
 
 export type CellTextPlacement = 'left' | 'right' | 'top' | 'bottom' | 'center'

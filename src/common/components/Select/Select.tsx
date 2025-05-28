@@ -25,54 +25,64 @@ export const Select = <T,>({
         <Controller
             name={name}
             control={control}
-            render={({ field }) => {
+            render={({ field, fieldState }) => {
                 const selectedOption = options.find(
                     (option) => option.value === field.value,
                 )
                 return (
                     <>
-                        {label && <label htmlFor="role">{label}</label>}
-                        <div
-                            className={
-                                'Select' + (showOptions ? ' Select--open' : '')
-                            }
-                        >
-                            <input
-                                type="text"
-                                placeholder={placeholder || 'Select an option'}
-                                className="SelectInput SelectInput--open"
-                                value={selectedOption?.label ?? ''}
-                                onClick={() => setShowOptions(!showOptions)}
-                                onBlur={() => setShowOptions(false)}
-                                readOnly
-                            />
-                            <i>
-                                {showOptions ? (
-                                    <FaChevronUp />
-                                ) : (
-                                    <FaChevronDown />
+                        <div className="LabelInputPair">
+                            {label && <label htmlFor="role">{label}</label>}
+                            <div
+                                className={
+                                    'Select' +
+                                    (showOptions ? ' Select--open' : '')
+                                }
+                            >
+                                <input
+                                    type="text"
+                                    placeholder={
+                                        placeholder || 'Select an option'
+                                    }
+                                    className="SelectInput SelectInput--open"
+                                    value={selectedOption?.label ?? ''}
+                                    onClick={() => setShowOptions(!showOptions)}
+                                    onBlur={() => setShowOptions(false)}
+                                    readOnly
+                                />
+                                <i>
+                                    {showOptions ? (
+                                        <FaChevronUp />
+                                    ) : (
+                                        <FaChevronDown />
+                                    )}
+                                </i>
+                                {showOptions && (
+                                    <div className="SelectOptions">
+                                        {options.map((option, index) => (
+                                            <div
+                                                key={index}
+                                                className="SelectOption"
+                                                onMouseDown={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                                onClick={() => {
+                                                    field.onChange(option.value)
+                                                    setShowOptions(false)
+                                                }}
+                                            >
+                                                {option.label}
+                                            </div>
+                                        ))}
+                                    </div>
                                 )}
-                            </i>
-                            {showOptions && (
-                                <div className="SelectOptions">
-                                    {options.map((option, index) => (
-                                        <div
-                                            key={index}
-                                            className="SelectOption"
-                                            onMouseDown={(e) =>
-                                                e.preventDefault()
-                                            }
-                                            onClick={() => {
-                                                field.onChange(option.value)
-                                                setShowOptions(false)
-                                            }}
-                                        >
-                                            {option.label}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                            </div>
                         </div>
+                        {fieldState.error && (
+                            <div className="ErrorText">
+                                <span>{fieldState.error.message}</span>
+                            </div>
+                        )}
                     </>
                 )
             }}

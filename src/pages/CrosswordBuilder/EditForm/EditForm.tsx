@@ -12,6 +12,8 @@ import {
     defaultClueTextPlacementOptions,
 } from './EditForm.defaults'
 import { match } from 'ts-pattern'
+import { editFormSchema } from './EditForm.schemas'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type EditFormProps = {
     cell: Cell
@@ -21,6 +23,7 @@ type EditFormProps = {
 export const EditForm = ({ cell, onSubmit, setClose }: EditFormProps) => {
     const { control, reset, handleSubmit, watch } = useForm({
         defaultValues: defatultEditFormData(),
+        resolver: yupResolver(editFormSchema),
     })
 
     const { role, direction } = watch()

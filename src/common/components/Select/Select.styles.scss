@@ -45,7 +45,7 @@
         border: 1px solid palette.$black_3;
         border-radius: 10px;
         box-shadow: shadows.dual-box-shadow(15px, 15px, 20px);
-        z-index: 1000;
+        z-index: 100;
 
         .SelectOption {
             padding: 5px 10px;

@@ -3,6 +3,7 @@ import type { EditFormData, EditFormState } from './EditModal.types'
 import type { CrosswordBoardResource } from '../../../common/types'
 import { CellInfo } from '../CellInfo/CellInfo'
 import { EditForm } from '../EditForm/EditForm'
+import { transformEditFormData } from './EditModal.transformers'
 
 type EditModalProps = {
     initialFormState: EditFormState
@@ -24,7 +25,10 @@ export const EditModal = ({
         })
 
     const onSubmit = (data: EditFormData) => {
-        console.log('Form submitted with data:', data)
+        console.log(
+            'Form submitted with data:',
+            transformEditFormData.toApi(data),
+        )
     }
 
     return (

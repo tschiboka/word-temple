@@ -26,17 +26,24 @@ export const TextInput = <T extends FieldValues = FieldValues>({
     <Controller
         name={name}
         control={control}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
             <>
-                <label htmlFor="solution">{label}</label>
-                <input
-                    {...field}
-                    className="TextInput"
-                    type="text"
-                    placeholder={placeholder || 'Solution Character'}
-                    disabled={disabled}
-                    required={required}
-                />
+                <div className="LabelInputPair">
+                    <label htmlFor="solution">{label}</label>
+                    <input
+                        {...field}
+                        className="TextInput"
+                        type="text"
+                        placeholder={placeholder || 'Solution Character'}
+                        disabled={disabled}
+                        required={required}
+                    />
+                </div>
+                {fieldState.error && (
+                    <div className="ErrorText">
+                        <span>{fieldState.error.message}</span>
+                    </div>
+                )}
             </>
         )}
     />
