@@ -1,0 +1,18 @@
+@use "../../styles/palette.scss" as palette;
+@use "../../styles/font_sizes.scss" as font_sizes;
+@use "../../styles/shadows.scss" as shadows;
+
+.TextInput {
+        width: 70%;
+        padding: 3px 10px;
+        background-color: palette.$black_1;
+        border: 1px solid palette.$black_3;
+        border-radius: 10px;
+        color: palette.$accent_dark_2;
+        font-size: font_sizes.$font_sm;
+        box-shadow: shadows.dual-box-shadow(15px, 15px, 20px);
+    
+    &:focus {
+        outline: none;
+    }
+}

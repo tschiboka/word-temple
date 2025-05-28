@@ -5,12 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { useQueryParams } from '../../common/utils/useQueryParams'
 import { pathBuilder } from '../../common/routing/pathBuilder'
 import type { CrosswordBoardResource } from '../../common/types'
-import {
-    defaultEditFromState,
-    EditModal,
-    type EditFormState,
-} from './EditModal'
+import { EditModal, type EditFormState } from './EditModal'
 import './CrosswordBuilder.styles.scss'
+import { defaultEditFromState } from './EditForm/EditForm.defaults'
 
 export const CrosswordBuilder = () => {
     const navigate = useNavigate()
@@ -65,6 +62,7 @@ export const CrosswordBuilder = () => {
                 </footer>
                 <EditModal
                     initialFormState={editFormState}
+                    board={board}
                     setFormState={setEditFormState}
                 />
             </div>

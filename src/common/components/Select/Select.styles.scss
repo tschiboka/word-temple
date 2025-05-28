@@ -3,10 +3,12 @@
 @use "../../styles/shadows.scss" as shadows;
 
 .Select {
+    width: 70%;
     position: relative;
     font-size: font_sizes.$font_sm;
 
     input {
+        width: 100%;
         padding: 3px 10px;
         background-color: palette.$black_1;
         border: 1px solid palette.$black_3;

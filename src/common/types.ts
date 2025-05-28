@@ -36,6 +36,7 @@ export type Cell = {
     clueDown?: Clue;                         // Clue for the cell in the down direction
 }
 
+
 export type Clue = {
     text: string;                            // Clue text
     imageUrl?: string;                       // Optional image URL for the clue    

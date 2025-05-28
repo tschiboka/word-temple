@@ -1,4 +1,4 @@
-import type { BoardMode } from '../../Board/Board.types'
+import type { BoardMode } from '../Board.types'
 import type { Cell } from '../../../types'
 import './BoardCell.styles.scss'
 
@@ -15,15 +15,13 @@ export const BoardCell = ({
     isRevealed,
     disabled,
     onClick,
-}: BoardCellProps) => {
-    return (
-        <td className="BoardCell">
-            <div
-                className="SolutionBox"
-                onClick={() => !disabled && onClick?.(cell)}
-            >
-                {isRevealed && cell.solution}
-            </div>
-        </td>
-    )
-}
+}: BoardCellProps) => (
+    <td className="BoardCell">
+        <div
+            className="SolutionBox"
+            onClick={() => !disabled && onClick?.(cell)}
+        >
+            {isRevealed && cell.solution}
+        </div>
+    </td>
+)

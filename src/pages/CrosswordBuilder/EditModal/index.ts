@@ -1,8 +1,3 @@
-export {EditModal} from './EditModal';
-export {
-    defaultEditFromState, 
-    defaultCellTypeOptions, 
-    defaultClueDirectionOptions, 
-    defaultClueTextPlacementOptions
-} from './EditModal.defaults';
-export type {EditFormState} from './EditModal.types';
+export { EditModal } from './EditModal';
+export type { Direction, EditFormState, EditFormData } from './EditModal.types';
+export { getAvailableSpace } from './EditModal.utils';

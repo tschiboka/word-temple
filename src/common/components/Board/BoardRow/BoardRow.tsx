@@ -1,6 +1,6 @@
-import type { BoardMode } from '../Board/Board.types'
-import type { Cell } from '../../types'
-import { BoardCell } from '../Button/BoardCell/BoardCell'
+import type { BoardMode } from '../Board.types'
+import type { Cell } from '../../../types'
+import { BoardCell } from '../BoardCell/BoardCell'
 import './BoardRow.styles.scss'
 
 type BoardRowProps = {

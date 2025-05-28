@@ -1,4 +1,4 @@
-import { BoardRow } from '../BoardRow/BoardRow'
+import { BoardRow } from './BoardRow/BoardRow'
 import type { Cell, CrosswordBoardResource } from '../../types'
 import type { BoardMode } from './Board.types'
 import './Board.styles.scss'
