@@ -1,27 +1,32 @@
 import { useForm } from 'react-hook-form'
 import { Select } from '../../../common/components/Select/Select'
-import { TextInput } from '../../../common/components/TextInput/TextInput'
-import { type Direction, type EditFormData } from '../EditModal'
+import { type EditFormData } from '../EditModal'
 import { useEffect } from 'react'
-import type { Cell } from '../../../common/types'
+import type { Cell, CrosswordBoardResource } from '../../../common/types'
 import { Button } from '../../../common/components/Button/Button'
 import {
     defatultEditFormData,
     defaultCellTypeOptions,
-    defaultClueDirectionOptions,
-    defaultClueTextPlacementOptions,
 } from './EditForm.defaults'
 import { match } from 'ts-pattern'
 import { editFormSchema } from './EditForm.schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { CellPreview } from '../CellPreview/CellPreview'
+import { ClueElements, SolutionElements } from './FormElements'
 
 type EditFormProps = {
     cell: Cell
+    board: CrosswordBoardResource
     onSubmit: (data: EditFormData) => void
     setClose: () => void
 }
-export const EditForm = ({ cell, onSubmit, setClose }: EditFormProps) => {
-    const { control, reset, handleSubmit, watch } = useForm({
+export const EditForm = ({
+    cell,
+    board,
+    onSubmit,
+    setClose,
+}: EditFormProps) => {
+    const { control, reset, handleSubmit, watch, getValues } = useForm({
         defaultValues: defatultEditFormData(),
         resolver: yupResolver(editFormSchema),
     })
@@ -32,73 +37,9 @@ export const EditForm = ({ cell, onSubmit, setClose }: EditFormProps) => {
         if (cell) reset(defatultEditFormData(cell))
     }, [cell])
 
-    const SolutionElements = (
-        <div className="EditModalFormGroup">
-            <TextInput
-                name="solution"
-                control={control}
-                label="Solution"
-                placeholder="Solution Character"
-            />
-        </div>
-    )
-
-    const ClueElements = (direction?: Direction) => (
-        <>
-            <div className="EditModalFormGroup">
-                <Select
-                    name={'direction'}
-                    control={control}
-                    label="Direction"
-                    options={defaultClueDirectionOptions}
-                />
-            </div>
-            {(direction === 'horizontal' || direction === 'multidirection') && (
-                <div className="EditModalFormGroup">
-                    <TextInput
-                        name="horizontalClueText"
-                        control={control}
-                        label="Horisontal Clue"
-                        placeholder="Clue Text"
-                    />
-                </div>
-            )}
-            {(direction === 'vertical' || direction === 'multidirection') && (
-                <div className="EditModalFormGroup">
-                    <TextInput
-                        name="verticalClueText"
-                        control={control}
-                        label="Vertical Clue"
-                        placeholder="Clue Text"
-                    />
-                </div>
-            )}
-            {direction !== 'multidirection' && (
-                <>
-                    <div className="EditModalFormGroup">
-                        <TextInput
-                            name="imageUrl"
-                            control={control}
-                            label="Image URL"
-                            placeholder="Image"
-                        />
-                    </div>
-                    <div className="EditModalFormGroup">
-                        <Select
-                            name={'textPlacement'}
-                            control={control}
-                            label="Placement"
-                            options={defaultClueTextPlacementOptions}
-                        />
-                    </div>
-                </>
-            )}
-        </>
-    )
-
     const formElements = match({ role, direction })
-        .with({ role: 'solution' }, () => SolutionElements)
-        .with({ role: 'clue' }, () => ClueElements(direction))
+        .with({ role: 'solution' }, () => SolutionElements(control))
+        .with({ role: 'clue' }, () => ClueElements(control, direction))
         .otherwise(() => <></>)
 
     return (
@@ -113,6 +54,7 @@ export const EditForm = ({ cell, onSubmit, setClose }: EditFormProps) => {
                     />
                 </div>
                 {formElements}
+                <CellPreview board={board} formData={getValues()} />
             </form>
             <div className="EditModalActions">
                 <Button label="Save" onClick={handleSubmit(onSubmit)} />

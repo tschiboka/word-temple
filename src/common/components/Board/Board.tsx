@@ -17,6 +17,7 @@ export const Board = ({ crossword, mode, onClick }: BoardProps) => (
                     <BoardRow
                         key={rowIndex}
                         row={row}
+                        board={crossword}
                         rowIndex={rowIndex}
                         mode={mode}
                         onClick={onClick}

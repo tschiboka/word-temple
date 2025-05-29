@@ -1,4 +1,4 @@
-import type { Cell } from "../../../common/types"
+import type { Cell, HorizontalPlacements, VerticalPlacements } from "../../../common/types"
 
 
 export type EditFormState = {
@@ -15,7 +15,8 @@ export type EditFormData = {
     horizontalClueText?: string,
     verticalClueText?: string,
     imageUrl?: string,
-    textPlacement?: 'center' | 'left' | 'right' | 'top' | 'bottom',
+    horizontalTextPlacement?: HorizontalPlacements,
+    verticalTextPlacement?: VerticalPlacements,
 }
 
 export type Direction = 'horizontal' | 'vertical' | 'multidirection'

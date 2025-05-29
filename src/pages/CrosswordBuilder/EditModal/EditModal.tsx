@@ -37,7 +37,12 @@ export const EditModal = ({
             <div className="EditModal">
                 <h2>Edit Crossword Cell</h2>
                 <CellInfo board={board} cell={cell} />
-                <EditForm cell={cell} onSubmit={onSubmit} setClose={setClose} />
+                <EditForm
+                    cell={cell}
+                    board={board}
+                    onSubmit={onSubmit}
+                    setClose={setClose}
+                />
             </div>
         )
     )

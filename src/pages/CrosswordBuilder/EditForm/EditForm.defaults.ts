@@ -18,13 +18,18 @@ export const defaultClueDirectionOptions: {value: Direction, label: string}[] = 
     { value: 'multidirection', label: 'Multi Direction' },
 ]
 
-export const defaultClueTextPlacementOptions = [
-    { value: 'center', label: 'Center' },
-    { value: 'left', label: 'Left' },
-    { value: 'right', label: 'Right' },
-    { value: 'top', label: 'Top' },
-    { value: 'bottom', label: 'Bottom' },
-]
+export const defaultClueTextPlacementOptions = {
+    horizontal: [
+        { value: 'center', label: 'Center' },
+        { value: 'left', label: 'Left' },
+        { value: 'right', label: 'Right' },
+    ],
+    vertical: [
+        { value: 'center', label: 'Center' },
+        { value: 'top', label: 'Top' },
+        { value: 'bottom', label: 'Bottom' },
+    ]
+}
 
 
 export const defatultEditFormData = (cell?: Cell): EditFormData => ({
@@ -36,5 +41,6 @@ export const defatultEditFormData = (cell?: Cell): EditFormData => ({
     horizontalClueText: cell?.clueHorizontal?.text || '',
     verticalClueText: cell?.clueVertical?.text || '',
     imageUrl: cell?.clueHorizontal?.imageUrl || cell?.clueVertical?.imageUrl || '',
-    textPlacement: cell?.clueHorizontal?.textPlacement || cell?.clueVertical?.textPlacement || 'center',
+    horizontalTextPlacement: cell?.clueHorizontal?.textPlacement?.horizontal || 'center',
+    verticalTextPlacement: cell?.clueVertical?.textPlacement?.vertical || 'center',
 })

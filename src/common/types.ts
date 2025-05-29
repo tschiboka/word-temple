@@ -23,7 +23,7 @@ export type CrosswordBoardResponse = CrosswordBoardResource & {
 export type CrosswordBoardMetaResponse = CrosswordBoardMetaResource & {
     createdAt: string;                       // Date of creation
     updatedAt: string;                       // Date of last update
-    version: number;                        // Version of the crossword board that increments on each update
+    version: number;                         // Version of the crossword board that increments on each update
     isVerified: boolean;                     // Whether the crossword is verified against policy violations by admin (banned words or offensive language)
 }
 
@@ -40,10 +40,16 @@ export type Cell = {
 export type Clue = {
     text: string;                            // Clue text
     imageUrl?: string;                       // Optional image URL for the clue    
-    textPlacement?: CellTextPlacement;       // Placement of the clue text relative to the cell                                               
+    textPlacement?: TextPlacement;           // Placement of the clue text relative to the cell
 }
 
-export type CellTextPlacement = 'left' | 'right' | 'top' | 'bottom' | 'center'
+export type TextPlacement = {
+    horizontal?: HorizontalPlacements        // Horizontal placement of the clue text relative to the cell
+    vertical?: VerticalPlacements            // Vertical placement of the clue text relative to the cell
+}
+
+export type HorizontalPlacements = 'left' | 'right' |'center'
+export type VerticalPlacements = 'top' | 'bottom' | 'center'
 
 export type BoardDimensions = {
     colNumber: number;                       // Number of columns in the crossword (6-8)
