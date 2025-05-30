@@ -21,12 +21,12 @@ export const editFormSchema: yup.ObjectSchema<EditFormData> = yup.object({
     horizontalTextPlacement: yup.string().oneOf(['left', 'right', 'center']).optional(),
     verticalTextPlacement: yup.string().oneOf(['top', 'bottom', 'center']).optional(),
     horizontalClueText: yup.string().when(
-      ['direction', 'horizontalTextPlacement'],
+      ['direction', 'horizontalTextPlacement', 'verticalTextPlacement'],
         (values: unknown[], schema: yup.StringSchema) => 
             getClueTextSchema(values, schema, 'horizontal')
     ),
     verticalClueText: yup.string().when(
-      ['direction', 'verticalTextPlacement'],
+      ['direction', "horizontalTextPlacement", 'verticalTextPlacement'],
         (values: unknown[], schema: yup.StringSchema) => 
             getClueTextSchema(values, schema, 'vertical')
     ),
@@ -38,7 +38,7 @@ export const editFormSchema: yup.ObjectSchema<EditFormData> = yup.object({
  *   - Clues can be horizontal or vertical and have placement options, such as left, right, center, top, bottom,
  *   - A cell can hold both directions — “multi-directional clues”,
  *   - Images are not allowed in multi-directional clues due to space constraints,
- *   - Non-centered single-direction clues are restricted to 8 characters,
+ *   - Non-centered single-direction clues are restricted to 4 characters,
  *   - Centered single-direction clues can be up to 21 characters,
  *   - Multi-directional clues are limited to 14 characters for each direction,
  */
@@ -48,32 +48,27 @@ const getMaxClueLength = (
   horizontalTextPlacement?: HorizontalPlacements,
   verticalTextPlacement?: VerticalPlacements
 ): number => {
-    const isHorizontalCentered =
-        horizontalTextPlacement === 'center' || direction === 'multidirection';
-    const isVerticalCentered = 
-        verticalTextPlacement === 'center' || direction === 'multidirection';
-    const isCentered =
-        isHorizontalCentered ||
-        isVerticalCentered ||
-        direction === 'multidirection'
+    const isHorizontalNonCentered = horizontalTextPlacement !== 'center'
+    const isVerticalNonCentered = verticalTextPlacement !== 'center'
+    const hasNonCenterPlacement = isHorizontalNonCentered || isVerticalNonCentered
 
     if (direction === 'multidirection') return 14
-    if (isCentered) return 21
-    return 8
+    if (hasNonCenterPlacement) return 4
+    return 21
 };
 
 const getClueTextSchema = (values: unknown[], schema: yup.StringSchema, selectedDirection: Direction) => {
-    const [direction, placement] = values as [string, string]
+    const [direction, horizontalPlacement, verticalPlacement] = values as [string, string, string]
     if (direction === selectedDirection || direction === 'multidirection') {
       const maxLength = getMaxClueLength(
         direction,
-        selectedDirection === 'horizontal' ? placement as HorizontalPlacements : undefined,
-        selectedDirection === 'vertical' ? placement as VerticalPlacements : undefined
+        horizontalPlacement as HorizontalPlacements,
+        verticalPlacement as VerticalPlacements
       )
       return schema
         .required('Horizontal clue text is required')
         .max(maxLength, `Max ${maxLength} characters allowed`)
-        .matches(/^[A-Za-z0-9 \-_']+$/, 'Only alphanumerics and -_\' symbols allowed');
+        .matches(/^[A-Za-z0-9 \.+\-_']+$/, 'Only alphanumerics and -_\' symbols allowed')
     }
     return schema.optional()
 }

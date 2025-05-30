@@ -2,6 +2,7 @@
 @use "../../../styles/font_sizes.scss" as font_sizes;
 
 .BoardCell {
+    position: relative;
     .EmptyBox, .SolutionBox, .ClueBox {
         position: relative;
         width: 100%;
@@ -25,10 +26,20 @@
     }
 
     .ClueBox {
+        position: relative;
         display: flex;
         height: 100%;
         flex-direction: column;
         background-color: palette.$black_2;
+
+        .SingleClueCell--non-centered {
+            position: absolute;
+            padding: 2px;
+            background-color: palette.$black_x;
+            border: 1px solid palette.$black_3;
+            color: palette.$white_1;
+            font-size: 12px;
+        }
         
         .MultiClueCell {
             width: 100%;
@@ -47,6 +58,10 @@
                 border-bottom: 1px solid palette.$black_5;
             }
         }
+    }
+
+    .zoomed {
+        transform: scale(2);
     }
 }
 

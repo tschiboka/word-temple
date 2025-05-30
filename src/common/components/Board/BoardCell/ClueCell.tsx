@@ -1,15 +1,11 @@
-import {
-    GoTriangleUp,
-    GoTriangleDown,
-    GoTriangleLeft,
-    GoTriangleRight,
-} from 'react-icons/go'
+import { GoTriangleDown, GoTriangleRight } from 'react-icons/go'
 import type { Cell, CrosswordBoardResource } from '../../../types'
+import { useState } from 'react'
 
 type ClueCellProps = {
     cell: Cell
     board: CrosswordBoardResource
-    onClick?: (cell: Cell) => void
+    onClick?: () => void
 }
 
 const getFontSize = (isSingle: boolean, length: number) => {
@@ -29,44 +25,46 @@ const getFontSize = (isSingle: boolean, length: number) => {
 }
 
 export const ClueCell = ({ cell, board, onClick }: ClueCellProps) => {
+    const [zoomed, setZoomed] = useState(true)
+    console.log(zoomed)
     const hasClue = cell.clueHorizontal || cell.clueVertical
     const isMultiClue = cell.clueHorizontal && cell.clueVertical
     const isSingleClue = hasClue && !isMultiClue
 
-    const horizontalText = cell.clueHorizontal?.text || ''
-    const verticalText = cell.clueVertical?.text || ''
-    const clueText = horizontalText + verticalText
-    const singleClueTextSize = getFontSize(true, clueText.length)
-
-    const isLeftArrowVisible =
-        cell.clueHorizontal &&
-        board.meta.dimensions.colNumber === cell.colIndex + 1
     const isRightArrowVisible =
         cell.clueHorizontal &&
         board.meta.dimensions.colNumber !== cell.colIndex + 1
-    const isUpArrowVisible =
-        cell.clueVertical &&
-        board.meta.dimensions.rowNumber === cell.rowIndex + 1
     const isDownArrowVisible =
         cell.clueVertical &&
         board.meta.dimensions.rowNumber !== cell.rowIndex + 1
 
+    const positions = {
+        horizontal: cell.clueHorizontal
+            ? cell.clueHorizontal?.textPlacement?.horizontal
+            : cell.clueVertical?.textPlacement?.horizontal,
+        vertical: cell.clueHorizontal
+            ? cell.clueHorizontal?.textPlacement?.vertical
+            : cell.clueVertical?.textPlacement?.vertical,
+    }
+    const hasNonCenteredPlacement =
+        positions.horizontal !== 'center' || positions.vertical !== 'center'
+
+    const horizontalText = cell.clueHorizontal?.text || ''
+    const verticalText = cell.clueVertical?.text || ''
+    const clueText = horizontalText + verticalText
+    const getClassName = (cls: string) => (zoomed ? `${cls} zoomed` : cls)
+
     return (
-        <div className="ClueBox" onClick={() => onClick?.(cell)}>
+        <div
+            className={getClassName('ClueBox')}
+            onClick={() => onClick?.()}
+            onMouseDown={() => setZoomed(true)}
+            onMouseUp={() => setZoomed(false)}
+        >
             <div className="ClueBoxArrows">
-                {isUpArrowVisible && (
-                    <div className="ClueBoxArrow--up">
-                        <GoTriangleUp />
-                    </div>
-                )}
                 {isDownArrowVisible && (
                     <div className="ClueBoxArrow--down">
                         <GoTriangleDown />
-                    </div>
-                )}
-                {isLeftArrowVisible && (
-                    <div className="ClueBoxArrow--left">
-                        <GoTriangleLeft />
                     </div>
                 )}
                 {isRightArrowVisible && (
@@ -75,10 +73,23 @@ export const ClueCell = ({ cell, board, onClick }: ClueCellProps) => {
                     </div>
                 )}
             </div>
-            {isSingleClue && (
+            {isSingleClue && !hasNonCenteredPlacement && (
                 <div
                     className="SingleClueCell"
-                    style={{ fontSize: singleClueTextSize }}
+                    style={{ fontSize: getFontSize(true, clueText.length) }}
+                >
+                    {cell.clueHorizontal?.text || cell.clueVertical?.text}
+                </div>
+            )}
+            {isSingleClue && hasNonCenteredPlacement && (
+                <div
+                    className="SingleClueCell SingleClueCell--non-centered"
+                    style={{
+                        top: positions.vertical === 'top' ? 0 : 'auto',
+                        bottom: positions.vertical === 'bottom' ? 0 : 'auto',
+                        left: positions.horizontal === 'left' ? 0 : 'auto',
+                        right: positions.horizontal === 'right' ? 0 : 'auto',
+                    }}
                 >
                     {cell.clueHorizontal?.text || cell.clueVertical?.text}
                 </div>

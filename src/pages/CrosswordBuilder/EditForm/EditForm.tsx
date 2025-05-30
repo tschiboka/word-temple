@@ -39,8 +39,15 @@ export const EditForm = ({
 
     const formElements = match({ role, direction })
         .with({ role: 'solution' }, () => SolutionElements(control))
-        .with({ role: 'clue' }, () => ClueElements(control, direction))
+        .with({ role: 'clue' }, () =>
+            ClueElements(control, cell, board, direction),
+        )
         .otherwise(() => <></>)
+
+    const isUpperLeftCornerCell = cell.rowIndex === 0 && cell.colIndex === 0
+    const cellTypeOptions = isUpperLeftCornerCell
+        ? defaultCellTypeOptions.filter((option) => option.value === 'empty')
+        : defaultCellTypeOptions
 
     return (
         <>
@@ -50,7 +57,7 @@ export const EditForm = ({
                         name={'role'}
                         control={control}
                         label="Cell Type"
-                        options={defaultCellTypeOptions}
+                        options={cellTypeOptions}
                     />
                 </div>
                 {formElements}
