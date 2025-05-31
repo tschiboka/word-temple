@@ -9,7 +9,7 @@ export type EditFormState = {
 export type EditFormData = {
     rowIndex: number,
     colIndex: number,
-    role: 'empty' | 'solution' | 'clue',
+    role: CellType,
     solution?: string,
     direction?: Direction,
     horizontalClueText?: string,
@@ -20,3 +20,4 @@ export type EditFormData = {
 }
 
 export type Direction = 'horizontal' | 'vertical' | 'multidirection'
+export type CellType = 'empty' | 'solution' | 'clue'

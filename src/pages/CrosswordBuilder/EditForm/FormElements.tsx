@@ -3,8 +3,8 @@ import { TextInput } from '../../../common/components/TextInput/TextInput'
 import type { Direction, EditFormData } from '../EditModal'
 import { Select } from '../../../common/components/Select/Select'
 import {
-    defaultClueDirectionOptions,
     defaultClueTextPlacementOptions,
+    getDirectionOptions,
 } from './EditForm.defaults'
 import type { Cell, CrosswordBoardResource } from '../../../common/types'
 
@@ -15,6 +15,7 @@ export const SolutionElements = (control: Control<EditFormData>) => (
             control={control}
             label="Solution"
             placeholder="Solution Character"
+            style={{ textTransform: 'uppercase' }}
         />
     </div>
 )
@@ -24,84 +25,73 @@ export const ClueElements = (
     cell: Cell,
     board: CrosswordBoardResource,
     direction?: Direction,
-) => {
-    const isCellOnLastRow =
-        cell.rowIndex === board.meta.dimensions.rowNumber - 1
-    const isCellOnLastColumn =
-        cell.colIndex === board.meta.dimensions.colNumber - 1
-    const canHaveMultidirection = !isCellOnLastColumn && !isCellOnLastRow
-    const directionOptions = canHaveMultidirection
-        ? defaultClueDirectionOptions
-        : defaultClueDirectionOptions.filter(
-              (option) => option.value !== 'multidirection',
-          )
-
-    return (
-        <>
+) => (
+    <>
+        <div className="EditModalFormGroup">
+            <Select
+                name={'direction'}
+                control={control}
+                label="Direction"
+                options={getDirectionOptions(board, cell) || []}
+            />
+        </div>
+        {(direction === 'horizontal' || direction === 'multidirection') && (
             <div className="EditModalFormGroup">
-                <Select
-                    name={'direction'}
+                <TextInput
+                    name="horizontalClueText"
                     control={control}
-                    label="Direction"
-                    options={directionOptions}
+                    label={
+                        direction === 'multidirection'
+                            ? 'Horizontal Clue'
+                            : 'Clue Text'
+                    }
+                    placeholder="Clue Text"
+                    style={{ textTransform: 'uppercase' }}
                 />
             </div>
-            {(direction === 'horizontal' || direction === 'multidirection') && (
+        )}
+        {(direction === 'vertical' || direction === 'multidirection') && (
+            <div className="EditModalFormGroup">
+                <TextInput
+                    name="verticalClueText"
+                    control={control}
+                    label={
+                        direction === 'multidirection'
+                            ? 'Vertical Clue'
+                            : 'Clue Text'
+                    }
+                    placeholder="Clue Text"
+                    style={{ textTransform: 'uppercase' }}
+                />
+            </div>
+        )}
+        {direction !== 'multidirection' && (
+            <>
                 <div className="EditModalFormGroup">
-                    <TextInput
-                        name="horizontalClueText"
+                    <Select
+                        name={'horizontalTextPlacement'}
                         control={control}
-                        label={
-                            direction === 'multidirection'
-                                ? 'Horizontal Clue'
-                                : 'Clue Text'
-                        }
-                        placeholder="Clue Text"
+                        label="Horizontal Placement"
+                        options={defaultClueTextPlacementOptions.horizontal}
                     />
                 </div>
-            )}
-            {(direction === 'vertical' || direction === 'multidirection') && (
                 <div className="EditModalFormGroup">
-                    <TextInput
-                        name="verticalClueText"
+                    <Select
+                        name={'verticalTextPlacement'}
                         control={control}
-                        label={
-                            direction === 'multidirection'
-                                ? 'Vertical Clue'
-                                : 'Clue Text'
-                        }
-                        placeholder="Clue Text"
+                        label="Vertical Placement"
+                        options={defaultClueTextPlacementOptions.vertical}
                     />
                 </div>
-            )}
-            {direction !== 'multidirection' && (
-                <>
-                    <div className="EditModalFormGroup">
-                        <Select
-                            name={'horizontalTextPlacement'}
-                            control={control}
-                            label="Horizontal Placement"
-                            options={defaultClueTextPlacementOptions.horizontal}
-                        />
-                    </div>
-                    <div className="EditModalFormGroup">
-                        <Select
-                            name={'verticalTextPlacement'}
-                            control={control}
-                            label="Vertical Placement"
-                            options={defaultClueTextPlacementOptions.vertical}
-                        />
-                    </div>
-                    <div className="EditModalFormGroup">
-                        <TextInput
-                            name="imageUrl"
-                            control={control}
-                            label="Image URL"
-                            placeholder="Image"
-                        />
-                    </div>
-                </>
-            )}
-        </>
-    )
-}
+                <div className="EditModalFormGroup">
+                    <TextInput
+                        name="imageUrl"
+                        control={control}
+                        label="Image URL"
+                        placeholder="Image"
+                    />
+                </div>
+            </>
+        )}
+    </>
+)

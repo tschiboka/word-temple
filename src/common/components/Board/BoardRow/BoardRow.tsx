@@ -8,6 +8,7 @@ type BoardRowProps = {
     rowIndex: number
     board: CrosswordBoardResource
     mode: BoardMode
+    dimensions?: { width: number; height: number }
     onClick?: (cell: Cell) => void
 }
 
@@ -16,6 +17,7 @@ export const BoardRow = ({
     rowIndex,
     board,
     mode,
+    dimensions,
     onClick,
 }: BoardRowProps) => (
     <tr className="BoardRow">
@@ -26,6 +28,7 @@ export const BoardRow = ({
                 board={board}
                 isRevealed
                 mode={mode}
+                dimensions={dimensions}
                 onClick={onClick}
             />
         ))}

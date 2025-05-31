@@ -1,11 +1,14 @@
 import { GoTriangleDown, GoTriangleRight } from 'react-icons/go'
 import type { Cell, CrosswordBoardResource } from '../../../types'
 import { useState } from 'react'
+import { getCellProperties } from './BoardCell.selectors'
+import type { BoardMode } from '../Board.types'
 
 type ClueCellProps = {
     cell: Cell
     board: CrosswordBoardResource
-    onClick?: () => void
+    mode: BoardMode
+    onClick?: (cell: Cell) => void
 }
 
 const getFontSize = (isSingle: boolean, length: number) => {
@@ -13,7 +16,7 @@ const getFontSize = (isSingle: boolean, length: number) => {
         if (length === 1) return 25
         if (length === 2) return 22
         if (length === 3) return 18
-        if (length <= 4) return 13
+        if (length <= 6) return 12
         return 8
     } else {
         if (length === 1) return 18
@@ -24,50 +27,33 @@ const getFontSize = (isSingle: boolean, length: number) => {
     }
 }
 
-export const ClueCell = ({ cell, board, onClick }: ClueCellProps) => {
-    const [zoomed, setZoomed] = useState(true)
-    console.log(zoomed)
-    const hasClue = cell.clueHorizontal || cell.clueVertical
-    const isMultiClue = cell.clueHorizontal && cell.clueVertical
-    const isSingleClue = hasClue && !isMultiClue
+export const ClueCell = ({ cell, board, mode, onClick }: ClueCellProps) => {
+    const [zoomed, setZoomed] = useState(false)
 
-    const isRightArrowVisible =
-        cell.clueHorizontal &&
-        board.meta.dimensions.colNumber !== cell.colIndex + 1
-    const isDownArrowVisible =
-        cell.clueVertical &&
-        board.meta.dimensions.rowNumber !== cell.rowIndex + 1
-
-    const positions = {
-        horizontal: cell.clueHorizontal
-            ? cell.clueHorizontal?.textPlacement?.horizontal
-            : cell.clueVertical?.textPlacement?.horizontal,
-        vertical: cell.clueHorizontal
-            ? cell.clueHorizontal?.textPlacement?.vertical
-            : cell.clueVertical?.textPlacement?.vertical,
-    }
-    const hasNonCenteredPlacement =
-        positions.horizontal !== 'center' || positions.vertical !== 'center'
-
-    const horizontalText = cell.clueHorizontal?.text || ''
-    const verticalText = cell.clueVertical?.text || ''
-    const clueText = horizontalText + verticalText
-    const getClassName = (cls: string) => (zoomed ? `${cls} zoomed` : cls)
+    const {
+        isArrowVisible,
+        isSingleClue,
+        isMultiClue,
+        hasNonCenteredPlacement,
+        positions,
+        clueText,
+        getClassName,
+    } = getCellProperties(board, cell, mode)
 
     return (
         <div
-            className={getClassName('ClueBox')}
-            onClick={() => onClick?.()}
+            className={getClassName(zoomed)}
+            onClick={() => onClick?.(cell)}
             onMouseDown={() => setZoomed(true)}
             onMouseUp={() => setZoomed(false)}
         >
             <div className="ClueBoxArrows">
-                {isDownArrowVisible && (
+                {isArrowVisible.down && (
                     <div className="ClueBoxArrow--down">
                         <GoTriangleDown />
                     </div>
                 )}
-                {isRightArrowVisible && (
+                {isArrowVisible.right && (
                     <div className="ClueBoxArrow--right">
                         <GoTriangleRight />
                     </div>

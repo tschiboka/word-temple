@@ -16,3 +16,7 @@
         outline: none;
     }
 }
+
+.TextInput::placeholder {
+    text-transform: none;
+}

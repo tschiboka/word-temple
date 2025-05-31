@@ -38,7 +38,7 @@ export const editFormSchema: yup.ObjectSchema<EditFormData> = yup.object({
  *   - Clues can be horizontal or vertical and have placement options, such as left, right, center, top, bottom,
  *   - A cell can hold both directions — “multi-directional clues”,
  *   - Images are not allowed in multi-directional clues due to space constraints,
- *   - Non-centered single-direction clues are restricted to 4 characters,
+ *   - Non-centered single-direction clues are restricted to 5 characters,
  *   - Centered single-direction clues can be up to 21 characters,
  *   - Multi-directional clues are limited to 14 characters for each direction,
  */
@@ -53,7 +53,7 @@ const getMaxClueLength = (
     const hasNonCenterPlacement = isHorizontalNonCentered || isVerticalNonCentered
 
     if (direction === 'multidirection') return 14
-    if (hasNonCenterPlacement) return 4
+    if (hasNonCenterPlacement) return 5
     return 21
 };
 

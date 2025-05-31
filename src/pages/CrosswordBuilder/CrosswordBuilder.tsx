@@ -64,6 +64,7 @@ export const CrosswordBuilder = () => {
                     initialFormState={editFormState}
                     board={board}
                     setFormState={setEditFormState}
+                    setBoard={setBoard}
                 />
             </div>
         </div>

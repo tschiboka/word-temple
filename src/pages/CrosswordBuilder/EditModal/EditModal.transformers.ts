@@ -1,5 +1,5 @@
 import type { Cell, HorizontalPlacements, TextPlacement, VerticalPlacements } from "../../../common/types";
-import type { EditFormData } from "./EditModal.types";
+import type { EditFormData } from "../EditForm/EditForm.types";
 
 const getTextPlacement = (horizontal?: HorizontalPlacements, vertical?: VerticalPlacements): TextPlacement | undefined => {
     return { horizontal: horizontal || 'center', vertical: vertical || 'center' };

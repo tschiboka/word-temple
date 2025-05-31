@@ -4,10 +4,7 @@ import { type EditFormData } from '../EditModal'
 import { useEffect } from 'react'
 import type { Cell, CrosswordBoardResource } from '../../../common/types'
 import { Button } from '../../../common/components/Button/Button'
-import {
-    defatultEditFormData,
-    defaultCellTypeOptions,
-} from './EditForm.defaults'
+import { defatultEditFormData, getCellTypeOptions } from './EditForm.defaults'
 import { match } from 'ts-pattern'
 import { editFormSchema } from './EditForm.schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -44,11 +41,6 @@ export const EditForm = ({
         )
         .otherwise(() => <></>)
 
-    const isUpperLeftCornerCell = cell.rowIndex === 0 && cell.colIndex === 0
-    const cellTypeOptions = isUpperLeftCornerCell
-        ? defaultCellTypeOptions.filter((option) => option.value === 'empty')
-        : defaultCellTypeOptions
-
     return (
         <>
             <form>
@@ -57,7 +49,7 @@ export const EditForm = ({
                         name={'role'}
                         control={control}
                         label="Cell Type"
-                        options={cellTypeOptions}
+                        options={getCellTypeOptions(board, cell)}
                     />
                 </div>
                 {formElements}

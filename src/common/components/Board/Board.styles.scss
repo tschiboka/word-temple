@@ -20,9 +20,15 @@
                 .BoardCell {
                     &:first-child {
                         border-top-left-radius: 10px;
+                        .EmptyBox, .SolutionBox, .ClueBox {
+                            border-top-left-radius: 10px;
+                        }
                     }
                     &:last-child {
                         border-top-right-radius: 10px;
+                        .EmptyBox, .SolutionBox, .ClueBox {
+                            border-top-right-radius: 10px;
+                        }
                     }
                 } 
             }
@@ -30,9 +36,15 @@
                 .BoardCell {
                     &:first-child {
                         border-bottom-left-radius: 10px;
+                        .EmptyBox, .SolutionBox, .ClueBox {
+                            border-bottom-left-radius: 10px;
+                        }
                     }
                     &:last-child {
                         border-bottom-right-radius: 10px;
+                        .EmptyBox, .SolutionBox, .ClueBox {
+                            border-bottom-right-radius: 10px;
+                        }
                     }
                 } 
             }

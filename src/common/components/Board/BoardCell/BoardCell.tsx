@@ -11,6 +11,7 @@ type BoardCellProps = {
     isRevealed?: boolean // Used in editor and game play to show solution
     disabled?: boolean // Used in gameplay to disable user interaction
     mode: BoardMode
+    dimensions?: { width: number; height: number }
     onClick?: (cell: Cell) => void
 }
 
@@ -20,6 +21,7 @@ export const BoardCell = ({
     isRevealed,
     disabled,
     mode,
+    dimensions,
     onClick,
 }: BoardCellProps) => {
     const className = 'BoardCell' + (mode === 'view' ? ' BoardCell--view' : '')
@@ -34,7 +36,7 @@ export const BoardCell = ({
             />
         ))
         .with('clue', () => (
-            <ClueCell board={board} cell={cell} onClick={onClick} />
+            <ClueCell board={board} cell={cell} onClick={onClick} mode={mode} />
         ))
         .otherwise(() => (
             <div
@@ -43,5 +45,19 @@ export const BoardCell = ({
             ></div>
         ))
 
-    return <td className={className}>{renderedCell}</td>
+    return (
+        <td
+            style={{
+                width: dimensions?.width
+                    ? `${dimensions.width / board.cells[0].length}px`
+                    : 'auto',
+                height: dimensions?.height
+                    ? `${dimensions.height / board.cells.length}px`
+                    : 'auto',
+            }}
+            className={className}
+        >
+            {renderedCell}
+        </td>
+    )
 }

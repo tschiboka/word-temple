@@ -17,6 +17,7 @@
     align-items: center;
     background-color: palette.$black_1;
     border-radius: 10px;
+    z-index: 200;
 
     .CellInfo {
         width: 100%;
