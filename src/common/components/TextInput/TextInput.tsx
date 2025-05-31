@@ -16,44 +16,39 @@ type TextInputProps<T extends FieldValues = FieldValues> = {
     style?: React.CSSProperties
 }
 
-export const TextInput = <T extends FieldValues = FieldValues>(
-    props: TextInputProps<T>,
-) => {
-    const {
-        name,
-        control,
-        label = '',
-        placeholder,
-        disabled = false,
-        required = false,
-        ...rest
-    } = props
-    console.log(props)
-    return (
-        <Controller
-            name={name}
-            control={control}
-            render={({ field, fieldState }) => (
-                <>
-                    <div className="LabelInputPair">
-                        <label htmlFor="solution">{label}</label>
-                        <input
-                            {...field}
-                            className="TextInput"
-                            type="text"
-                            placeholder={placeholder || 'Solution Character'}
-                            disabled={disabled}
-                            required={required}
-                            {...rest}
-                        />
+export const TextInput = <T extends FieldValues = FieldValues>({
+    name,
+    control,
+    label,
+    placeholder,
+    disabled = false,
+    required = false,
+    style,
+    ...rest
+}: TextInputProps<T>) => (
+    <Controller
+        name={name}
+        control={control}
+        render={({ field, fieldState }) => (
+            <>
+                <div className="LabelInputPair">
+                    <label htmlFor="solution">{label}</label>
+                    <input
+                        {...field}
+                        className="TextInput"
+                        type="text"
+                        placeholder={placeholder || 'Solution Character'}
+                        disabled={disabled}
+                        required={required}
+                        {...rest}
+                    />
+                </div>
+                {fieldState.error && (
+                    <div className="ErrorText">
+                        <span>{fieldState.error.message}</span>
                     </div>
-                    {fieldState.error && (
-                        <div className="ErrorText">
-                            <span>{fieldState.error.message}</span>
-                        </div>
-                    )}
-                </>
-            )}
-        />
-    )
-}
+                )}
+            </>
+        )}
+    />
+)

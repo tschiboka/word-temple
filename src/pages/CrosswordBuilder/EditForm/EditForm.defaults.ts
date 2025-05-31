@@ -63,12 +63,23 @@ export const defaultClueTextPlacementOptions = {
     ]
 }
 
+const getDefaultDirection = (cell?: Cell): Direction | undefined => {
+    if (cell?.clueHorizontal && cell?.clueVertical) {
+        return 'multidirection';
+    } else if (cell?.clueHorizontal) {
+        return 'horizontal';
+    } else if (cell?.clueVertical) {
+        return 'vertical';
+    }
+    return undefined;
+}
+
 export const defatultEditFormData = (cell?: Cell): EditFormData => ({
     rowIndex: cell?.rowIndex || 0,
     colIndex: cell?.colIndex || 0,
     role: cell?.role || 'empty',
     solution: cell?.solution || '',
-    direction: cell?.clueHorizontal ? 'horizontal' : cell?.clueVertical ? 'vertical' : undefined,
+    direction: getDefaultDirection(cell),
     horizontalClueText: cell?.clueHorizontal?.text || '',
     verticalClueText: cell?.clueVertical?.text || '',
     imageUrl: cell?.clueHorizontal?.imageUrl || cell?.clueVertical?.imageUrl || '',
