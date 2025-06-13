@@ -1,5 +1,5 @@
 import { getAvailableSpace } from '../EditModal'
-import type { Cell, CrosswordBoardResource } from '../../../common/types'
+import type { Cell, CrosswordBoardResource } from '@common'
 
 type CellInfoProps = {
     board: CrosswordBoardResource

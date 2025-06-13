@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../Button/Button'
-import { pathBuilder } from '../../routing/pathBuilder'
+import { Button, pathBuilder } from '@common'
 
 export const RouteError = () => {
     const navigate = useNavigate()

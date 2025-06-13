@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-import { Button } from './common/components/Button/Button'
-import { pathBuilder } from './common/routing/pathBuilder'
+import { Button, pathBuilder } from '@common'
 import './App.scss'
 
-function App() {
+const App = () => {
     const navigate = useNavigate()
     return (
         <div className="App">

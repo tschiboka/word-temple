@@ -1,10 +1,5 @@
 import { PATHS } from "./Routing"
-
-type Path = { path: string }
-type Paths = {
-    HOME: Path
-    BUILDER: Path & { id?: number }
-}
+import type { Paths } from './pathBuilder.types'
 
 export const pathBuilder = <T extends keyof Paths>(
     routeName: T,

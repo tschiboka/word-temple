@@ -1,6 +1,6 @@
 import './EditModal.styles.scss'
 import type { EditFormData, EditFormState } from '../EditForm/EditForm.types'
-import type { CrosswordBoardResource } from '../../../common/types'
+import type { CrosswordBoardResource } from '@common'
 import { CellInfo } from '../CellInfo/CellInfo'
 import { EditForm } from '../EditForm/EditForm'
 import { transformEditFormData } from './EditModal.transformers'

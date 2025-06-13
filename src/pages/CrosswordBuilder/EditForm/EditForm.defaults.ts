@@ -1,5 +1,5 @@
-import type { CellType, Direction, EditFormData, EditFormState } from "../EditModal";
-import type { Cell, CrosswordBoardResource, Option } from "../../../common/types";
+import type { CellType, Direction, EditFormData, EditFormState, FilterFn } from "./EditForm.types";
+import type { Cell, CrosswordBoardResource, Option } from "@common";
 
 export const defaultEditFromState: EditFormState = {
         isOpen: false,
@@ -12,7 +12,6 @@ export const defaultCellTypeOptions: Option<CellType>[] = [
     { value: 'clue', label: 'Clue' },
 ]
 
-type FilterFn<T> = { board: CrosswordBoardResource, cell: Cell, option: Option<T>}
 const filterTypeFn = ({ board, cell, option: {value} }: FilterFn<CellType>) => {
         const isUpperLeftCornerCell = cell.rowIndex === 0 && cell.colIndex === 0
         const isLowerRightCornerCell =
@@ -70,11 +69,10 @@ const getDefaultDirection = (cell?: Cell): Direction | undefined => {
         return 'horizontal';
     } else if (cell?.clueVertical) {
         return 'vertical';
-    }
-    return undefined;
+    }    return undefined;
 }
 
-export const defatultEditFormData = (cell?: Cell): EditFormData => ({
+export const defaultEditFormData = (cell?: Cell): EditFormData => ({
     rowIndex: cell?.rowIndex || 0,
     colIndex: cell?.colIndex || 0,
     role: cell?.role || 'empty',

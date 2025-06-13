@@ -1,10 +1,9 @@
 import { useForm } from 'react-hook-form'
-import { Select } from '../../../common/components/Select/Select'
+import { Select, Button } from '@common'
+import type { Cell, CrosswordBoardResource } from '@common'
 import { type EditFormData } from '../EditModal'
 import { useEffect } from 'react'
-import type { Cell, CrosswordBoardResource } from '../../../common/types'
-import { Button } from '../../../common/components/Button/Button'
-import { defatultEditFormData, getCellTypeOptions } from './EditForm.defaults'
+import { defaultEditFormData, getCellTypeOptions } from './EditForm.defaults'
 import { match } from 'ts-pattern'
 import { editFormSchema } from './EditForm.schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -24,14 +23,14 @@ export const EditForm = ({
     setClose,
 }: EditFormProps) => {
     const { control, reset, handleSubmit, watch, getValues } = useForm({
-        defaultValues: defatultEditFormData(),
+        defaultValues: defaultEditFormData(),
         resolver: yupResolver(editFormSchema),
     })
 
     const { role, direction } = watch()
 
     useEffect(() => {
-        if (cell) reset(defatultEditFormData(cell))
+        if (cell) reset(defaultEditFormData(cell))
     }, [cell])
 
     const formElements = match({ role, direction })

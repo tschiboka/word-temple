@@ -1,7 +1,7 @@
 import { createHashRouter } from 'react-router-dom'
 import App from '../../App'
 import { CrosswordBuilder } from '../../pages/CrosswordBuilder/CrosswordBuilder'
-import { RouteError } from '../components/RouteError/RouteError'
+import { RouteError } from '../../pages/RouteError/RouteError'
 
 export const PATHS = {
     HOME: '/',

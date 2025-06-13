@@ -1,4 +1,4 @@
-import type { Cell, HorizontalPlacements, VerticalPlacements } from "../../../common/types"
+import type { Cell, HorizontalPlacements, VerticalPlacements, Option, CrosswordBoardResource } from "@common"
 
 
 export type EditFormState = {
@@ -21,3 +21,5 @@ export type EditFormData = {
 
 export type Direction = 'horizontal' | 'vertical' | 'multidirection'
 export type CellType = 'empty' | 'solution' | 'clue'
+
+export type FilterFn<T> = { board: CrosswordBoardResource, cell: Cell, option: Option<T> }

@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 import type { Direction, EditFormData } from '../EditModal'
-import type { HorizontalPlacements, VerticalPlacements } from '../../../common/types';
+import type { HorizontalPlacements, VerticalPlacements } from '@common'
 
 export const editFormSchema: yup.ObjectSchema<EditFormData> = yup.object({
   rowIndex: yup.number().required(),

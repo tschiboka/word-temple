@@ -1,5 +1,5 @@
-import { BoardCell } from '../../../common/components/Board/BoardCell/BoardCell'
-import type { CrosswordBoardResource } from '../../../common/types'
+import { BoardCell } from '@common'
+import type { CrosswordBoardResource } from '@common'
 import { transformEditFormData, type EditFormData } from '../EditModal'
 import './CellPreview.styles.scss'
 

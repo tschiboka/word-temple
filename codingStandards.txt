@@ -1,0 +1,53 @@
+/ This file includes the coding standards used in this repo.
+
+1. Basics:
+    1.1. Indent with 4 spaces,
+    1.2. Use const over var (let should also be avoided),
+    1.3. Use single quotes for strings,
+    1.4. Use string templates over string concatination,
+    1.5. No unused imports and variables,
+    1.6. Use strict comparision ===
+    1.7. Avoid extensive use of if, else, switch and for statements and use functional approach instead,
+    1.8. Use brackets only for multi line blocks,
+    1.9. Avoid using globals,
+    1.10. Use camel-case for variables and functions,
+    1.11. Constructors should be capitalised,
+    1.12. Do not leave logs in code
+
+2. Functions:
+    2.1. Use camel case for funtion names,
+    2.2. Single line blocks should have no brackets,
+    2.3. Use arrow functions over function declarations where possible,
+    2.4. Use objects as arguments over more than 2 parameters,
+
+3. Components:
+    3.1. Capitalise component names,
+    3.2. Props should be typed out,
+    3.3. Returned component should have a matching class name with component name,
+    3.4. Use granulated components and split functionality where component handles multiple responsibilities,
+    3.5. Every component (where reasonable) should have its own folder,
+    3.6. Types should be declared in a separate file (apart from component prop declarations),
+    3.7. Transformers should seek to expose a fromApi and toApi function,
+    3.8. Import using . or .. over path declaration,
+    
+4. File Modularisation:
+    4.1. Component folders must have only the following types of files:
+        - Component.tsx: component file,
+        - Component.styles.scss: component styles,
+        - Component.defaults.ts: constants and default declarations regarding the component,
+        - Component.schemas.ts: form schema definitions,
+        - Component.types.ts: component type definitions,
+        - Component.selectors.ts: component selector definitions,
+        - Component.transformers.ts: data transformers regarding component forms,
+        - Component.utils.ts: any other utility funciton that is tied to the component,
+        - index.ts: expose all necessary fns and types here
+        - /tests
+            - Component.spec.tsx: component test suits,
+            - Component.mocks.ts: API mock data,
+            - Component.mockHandlers.ts: query mock handlers,
+            - Component.testUtils.ts: expose a fn that returns with all utility funcitons
+
+5. Tests:
+    - Every component should have its own test file (unless compound component),
+    - Tests are named *.spec.ts or *.spec.tsx
+    

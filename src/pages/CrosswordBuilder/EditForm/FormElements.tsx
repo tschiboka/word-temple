@@ -1,12 +1,11 @@
 import type { Control } from 'react-hook-form'
-import { TextInput } from '../../../common/components/TextInput/TextInput'
+import { TextInput, Select } from '@common'
+import type { Cell, CrosswordBoardResource } from '@common'
 import type { Direction, EditFormData } from '../EditModal'
-import { Select } from '../../../common/components/Select/Select'
 import {
     defaultClueTextPlacementOptions,
     getDirectionOptions,
 } from './EditForm.defaults'
-import type { Cell, CrosswordBoardResource } from '../../../common/types'
 
 export const SolutionElements = (control: Control<EditFormData>) => (
     <div className="EditModalFormGroup">
