@@ -1,24 +1,25 @@
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import { describe, it, expect } from 'vitest'
-import App from './App'
+import { screen, cleanup } from '@testing-library/react'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { testHelpers } from './App.testHelpers'
+import { pathBuilder } from '@common'
 
-const customRender = () => {
-    return render(
-        <MemoryRouter>
-            <App />
-        </MemoryRouter>,
-    )
-}
+const { customRender } = testHelpers
 
 describe('App Component', () => {
-    it('renders the Crossword Builder button', () => {
-        customRender()
+    beforeEach(() => {
+        cleanup()
+    })
+
+    it('should render the Crossword Builder button and navigates correctly', async () => {
+        const { user, location } = customRender()
+        await location.checkLocation(pathBuilder('HOME'))
 
         const builderButton = screen.getByRole('button', {
             name: 'Crossword Builder',
         })
         expect(builderButton).toBeTruthy()
-        expect(builderButton.textContent).toBe('Crossword Builder')
+
+        await user.click(builderButton)
+        await location.checkLocation(pathBuilder('BUILDER'))
     })
 })

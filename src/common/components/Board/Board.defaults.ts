@@ -1,7 +1,7 @@
 import type { Cell, CrosswordBoardResource } from "../../types";
 
-const DEFAULT_ROW_NUMBER = 10;
-const DEFAULT_COL_NUMBER = 8;
+export const DEFAULT_ROW_NUMBER = 10;
+export const DEFAULT_COL_NUMBER = 8;
 
 const getDefaultCells = (rowNumber: number, colNumber: number):Cell[][] => {
  return Array.from({ length: rowNumber }, (_, rowIndex) =>   

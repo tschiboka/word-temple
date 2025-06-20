@@ -31,7 +31,11 @@ export const Board = ({ crossword, mode, onClick }: BoardProps) => {
 
     return (
         <div className="Board">
-            <table id="BoardTable" ref={tableRef}>
+            <table
+                id="BoardTable"
+                ref={tableRef}
+                aria-label="Crossword Board Table"
+            >
                 <tbody>
                     {crossword?.cells.map((row, rowIndex) => (
                         <BoardRow
