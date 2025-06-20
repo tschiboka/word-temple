@@ -8,7 +8,7 @@ import {
 
 const { customRender } = testHelpers
 
-describe('CrosswordBuilder Component', () => {
+describe('Crossword Builder Component', () => {
     beforeEach(() => {
         cleanup()
     })

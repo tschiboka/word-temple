@@ -49,6 +49,7 @@ export const EditForm = ({
                         control={control}
                         label="Cell Type"
                         options={getCellTypeOptions(board, cell)}
+                        ariaLabel="Select Cell Type"
                     />
                 </div>
                 {formElements}

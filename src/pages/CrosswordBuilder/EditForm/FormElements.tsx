@@ -32,6 +32,7 @@ export const ClueElements = (
                 control={control}
                 label="Direction"
                 options={getDirectionOptions(board, cell) || []}
+                ariaLabel="Select Direction"
             />
         </div>
         {(direction === 'horizontal' || direction === 'multidirection') && (
@@ -72,6 +73,7 @@ export const ClueElements = (
                         control={control}
                         label="Horizontal Placement"
                         options={defaultClueTextPlacementOptions.horizontal}
+                        ariaLabel="Select Horizontal Text Placement"
                     />
                 </div>
                 <div className="EditModalFormGroup">
@@ -80,6 +82,7 @@ export const ClueElements = (
                         control={control}
                         label="Vertical Placement"
                         options={defaultClueTextPlacementOptions.vertical}
+                        ariaLabel="Select Vertical Text Placement"
                     />
                 </div>
                 <div className="EditModalFormGroup">

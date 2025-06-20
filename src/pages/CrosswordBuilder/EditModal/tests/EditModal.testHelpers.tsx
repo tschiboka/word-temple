@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { EditModal } from '../EditModal'
 import { defaultBoard } from '@common/components/Board/Board.defaults'
 import type { Cell } from '@common'
@@ -13,17 +14,23 @@ export const testHelpers = {
             cell: { ...mockDefaultCell, ...cell },
         }
 
+        const mockSetFormState = vi.fn()
+        const mockSetBoard = vi.fn()
+
         render(
             <EditModal
                 initialFormState={initialFormState}
                 board={defaultBoard}
-                setFormState={() => {}}
-                setBoard={() => {}}
+                setFormState={mockSetFormState}
+                setBoard={mockSetBoard}
             />,
         )
 
         return {
             user: userEvent.setup(),
+            closeModal: mockSetFormState,
+            setFormState: mockSetFormState,
+            setBoard: mockSetBoard,
         }
     },
 }

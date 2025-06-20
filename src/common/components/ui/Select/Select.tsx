@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Option } from '../../types'
+import type { Option } from '@common'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import './Select.styles.scss'
 import { Controller, type Control } from 'react-hook-form'
@@ -10,6 +10,7 @@ type SelectProps<T> = {
     label?: string
     placeholder?: string
     control: Control<any>
+    ariaLabel: string
 }
 
 export const Select = <T,>({
@@ -18,6 +19,7 @@ export const Select = <T,>({
     label,
     placeholder,
     control,
+    ariaLabel,
 }: SelectProps<T>) => {
     const [showOptions, setShowOptions] = useState(false)
 
@@ -31,7 +33,7 @@ export const Select = <T,>({
                 )
                 return (
                     <>
-                        <div className="LabelInputPair">
+                        <div className="LabelInputPair" aria-label={ariaLabel}>
                             {label && <label htmlFor="role">{label}</label>}
                             <div
                                 className={
@@ -48,6 +50,7 @@ export const Select = <T,>({
                                     value={selectedOption?.label ?? ''}
                                     onClick={() => setShowOptions(!showOptions)}
                                     onBlur={() => setShowOptions(false)}
+                                    aria-label={ariaLabel + ' Input'}
                                     readOnly
                                 />
                                 <i>
@@ -58,7 +61,10 @@ export const Select = <T,>({
                                     )}
                                 </i>
                                 {showOptions && (
-                                    <div className="SelectOptions">
+                                    <div
+                                        className="SelectOptions"
+                                        aria-label={ariaLabel + ' Options'}
+                                    >
                                         {options.map((option, index) => (
                                             <div
                                                 key={index}
@@ -70,6 +76,9 @@ export const Select = <T,>({
                                                     field.onChange(option.value)
                                                     setShowOptions(false)
                                                 }}
+                                                aria-label={
+                                                    ariaLabel + ' Option'
+                                                }
                                             >
                                                 {option.label}
                                             </div>

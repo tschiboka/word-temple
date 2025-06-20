@@ -1,10 +1,11 @@
 import { screen, cleanup } from '@testing-library/react'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { testHelpers } from './EditModal.testHelpers'
+import { mockDefaultCell } from '../../tests/CrosswordBuilder.mocks'
 
 const { customRender } = testHelpers
 
-describe('EditModal Component - Cell Information', () => {
+describe('Edit Modal Component - Cell Information', () => {
     beforeEach(() => {
         cleanup()
     })
@@ -37,13 +38,23 @@ describe('EditModal Component - Cell Information', () => {
         expect(spaceDown.textContent).toBe('9')
     })
 
-    it('should render Save and Cancel buttons', () => {
+    it('should render Save button', () => {
         customRender()
 
         const saveButtons = screen.getByRole('button', { name: 'Save' })
         expect(saveButtons.textContent).toBe('Save')
+    })
 
-        const cancelButtons = screen.getByRole('button', { name: 'Cancel' })
-        expect(cancelButtons.textContent).toBe('Cancel')
+    it('should close the modal on Cancel button click', async () => {
+        const { user, closeModal } = customRender()
+
+        const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+        expect(cancelButton).toBeTruthy()
+
+        await user.click(cancelButton)
+        expect(closeModal).toHaveBeenCalledWith({
+            isOpen: false,
+            cell: mockDefaultCell,
+        })
     })
 })
