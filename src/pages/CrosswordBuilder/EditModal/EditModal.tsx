@@ -1,6 +1,6 @@
 import './EditModal.styles.scss'
 import type { EditFormData, EditFormState } from '../EditForm/EditForm.types'
-import type { CrosswordBoardResource } from '@common'
+import type { Cell, CrosswordBoardResource } from '@common'
 import { CellInfo } from '../CellInfo/CellInfo'
 import { EditForm } from '../EditForm/EditForm'
 import { transformEditFormData } from './EditModal.transformers'
@@ -20,23 +20,25 @@ export const EditModal = ({
 }: EditModalProps) => {
     const { isOpen, cell } = initialFormState
 
-    const setClose = () =>
+    const setClose = (updatedCell?: Cell) =>
         setFormState({
             isOpen: false,
-            cell,
+            cell: updatedCell || cell,
         })
 
     const onSubmit = (data: EditFormData) => {
+        const updatedCell = transformEditFormData.toApi(data)
+
         const newBoard = board.cells.map((row, rowIndex) =>
             row.map((cell, colIndex) => {
                 if (rowIndex === data.rowIndex && colIndex === data.colIndex) {
-                    return transformEditFormData.toApi(data)
+                    return updatedCell
                 }
                 return cell
             }),
         )
         setBoard({ ...board, cells: newBoard })
-        setClose()
+        setClose(updatedCell)
     }
 
     return (

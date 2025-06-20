@@ -14,6 +14,7 @@ export const SolutionElements = (control: Control<EditFormData>) => (
             control={control}
             label="Solution"
             placeholder="Solution Character"
+            ariaLabel="Solution Input"
             style={{ textTransform: 'uppercase' }}
         />
     </div>
@@ -47,6 +48,7 @@ export const ClueElements = (
                     }
                     placeholder="Clue Text"
                     style={{ textTransform: 'uppercase' }}
+                    ariaLabel="Horizontal Clue Input"
                 />
             </div>
         )}
@@ -62,6 +64,7 @@ export const ClueElements = (
                     }
                     placeholder="Clue Text"
                     style={{ textTransform: 'uppercase' }}
+                    ariaLabel="Vertical Clue Input"
                 />
             </div>
         )}
@@ -91,6 +94,7 @@ export const ClueElements = (
                         control={control}
                         label="Image URL"
                         placeholder="Image"
+                        ariaLabel="Image URL Input"
                     />
                 </div>
             </>

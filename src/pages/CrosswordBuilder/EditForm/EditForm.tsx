@@ -57,7 +57,7 @@ export const EditForm = ({
             </form>
             <div className="EditModalActions">
                 <Button label="Save" onClick={handleSubmit(onSubmit)} />
-                <Button label="Cancel" onClick={setClose} />
+                <Button label="Cancel" onClick={() => setClose()} />
             </div>
         </>
     )

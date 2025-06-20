@@ -13,6 +13,7 @@ type TextInputProps<T extends FieldValues = FieldValues> = {
     placeholder?: string
     disabled?: boolean
     required?: boolean
+    ariaLabel: string
     style?: React.CSSProperties
 }
 
@@ -24,6 +25,7 @@ export const TextInput = <T extends FieldValues = FieldValues>({
     disabled = false,
     required = false,
     style,
+    ariaLabel,
     ...rest
 }: TextInputProps<T>) => (
     <Controller
@@ -40,6 +42,7 @@ export const TextInput = <T extends FieldValues = FieldValues>({
                         placeholder={placeholder || 'Solution Character'}
                         disabled={disabled}
                         required={required}
+                        aria-label={ariaLabel}
                         {...rest}
                     />
                 </div>
