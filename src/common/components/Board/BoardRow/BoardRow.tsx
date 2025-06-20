@@ -9,6 +9,7 @@ type BoardRowProps = {
     board: CrosswordBoardResource
     mode: BoardMode
     dimensions?: { width: number; height: number }
+    ariaLabel: string
     onClick?: (cell: Cell) => void
 }
 
@@ -18,9 +19,10 @@ export const BoardRow = ({
     board,
     mode,
     dimensions,
+    ariaLabel,
     onClick,
 }: BoardRowProps) => (
-    <tr className="BoardRow">
+    <tr className="BoardRow" aria-label={ariaLabel}>
         {row.map((cell, colIndex) => (
             <BoardCell
                 key={`${rowIndex}-${colIndex}`}
@@ -29,6 +31,7 @@ export const BoardRow = ({
                 isRevealed
                 mode={mode}
                 dimensions={dimensions}
+                ariaLabel={`Row ${rowIndex + 1} Column ${colIndex + 1}`}
                 onClick={onClick}
             />
         ))}

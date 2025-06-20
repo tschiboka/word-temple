@@ -15,6 +15,10 @@ html {
     scrollbar-color: palette.$accent_dark_3 #888;
     scrollbar-width: thin;
     font-variant: small-caps;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 ::-webkit-scrollbar {

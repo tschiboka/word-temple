@@ -8,6 +8,7 @@ type ClueCellProps = {
     cell: Cell
     board: CrosswordBoardResource
     mode: BoardMode
+    ariaLabel: string
     onClick?: (cell: Cell) => void
 }
 
@@ -27,7 +28,13 @@ const getFontSize = (isSingle: boolean, length: number) => {
     }
 }
 
-export const ClueCell = ({ cell, board, mode, onClick }: ClueCellProps) => {
+export const ClueCell = ({
+    cell,
+    board,
+    mode,
+    ariaLabel,
+    onClick,
+}: ClueCellProps) => {
     const [zoomed, setZoomed] = useState(false)
 
     const {
@@ -46,6 +53,7 @@ export const ClueCell = ({ cell, board, mode, onClick }: ClueCellProps) => {
             onClick={() => onClick?.(cell)}
             onMouseDown={() => setZoomed(true)}
             onMouseUp={() => setZoomed(false)}
+            aria-label={ariaLabel}
         >
             <div className="ClueBoxArrows">
                 {isArrowVisible.down && (

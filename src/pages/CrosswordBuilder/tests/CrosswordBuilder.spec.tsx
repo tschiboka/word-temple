@@ -41,4 +41,36 @@ describe('CrosswordBuilder Component', () => {
             expect(cells).toHaveLength(DEFAULT_COL_NUMBER)
         })
     })
+
+    it('should render all required buttons', () => {
+        customRender()
+
+        const saveButton = screen.getByRole('button', { name: 'Save' })
+        expect(saveButton).toBeTruthy()
+
+        const loadButton = screen.getByRole('button', { name: 'Load' })
+        expect(loadButton).toBeTruthy()
+
+        const clearButton = screen.getByRole('button', { name: 'Clear' })
+        expect(clearButton).toBeTruthy()
+
+        const homeButton = screen.getByRole('button', { name: 'Home' })
+        expect(homeButton).toBeTruthy()
+
+        const helpButton = screen.getByRole('button', { name: 'Help' })
+        expect(helpButton).toBeTruthy()
+    })
+
+    it('should open Edit Modal and board info when cell is clicked', async () => {
+        const { user } = customRender()
+
+        const firstCell = screen.getByLabelText('Row 1 Column 1')
+        expect(firstCell).toBeTruthy()
+        await user.click(firstCell)
+
+        const modalTitle = screen.getByRole('heading', {
+            name: 'Edit Crossword Cell',
+        })
+        expect(modalTitle).toBeTruthy()
+    })
 })

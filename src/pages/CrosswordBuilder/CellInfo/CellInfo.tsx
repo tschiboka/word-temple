@@ -9,17 +9,17 @@ export const CellInfo = ({ board, cell }: CellInfoProps) => {
     const availableSpace =
         cell && getAvailableSpace(board, cell.rowIndex, cell.colIndex)
     return (
-        <div className="CellInfo">
+        <div className="CellInfo" aria-label="Cell Information">
             <div className="EditModalInfoPair">
                 <div>
                     Title:{' '}
-                    <span className="highlight">
+                    <span className="highlight" aria-label="Board Title">
                         {board.meta.title || 'Untitled'}
                     </span>
                 </div>
                 <div>
                     Size:{' '}
-                    <span className="highlight">
+                    <span className="highlight" aria-label="Board Size">
                         {' '}
                         {board.meta.dimensions.rowNumber} &times;{' '}
                         {board.meta.dimensions.colNumber}
@@ -29,23 +29,33 @@ export const CellInfo = ({ board, cell }: CellInfoProps) => {
             <div className="EditModalInfoPair">
                 <div>
                     Row Index:{' '}
-                    <span className="highlight">{cell.rowIndex}</span>
+                    <span className="highlight" aria-label="Row Index">
+                        {cell.rowIndex}
+                    </span>
                 </div>
                 <div>
                     Col Index:{' '}
-                    <span className="highlight">{cell.colIndex}</span>
+                    <span className="highlight" aria-label="Column Index">
+                        {cell.colIndex}
+                    </span>
                 </div>
             </div>
             <div className="EditModalInfoPair">
                 <div>
                     Space Across:{' '}
-                    <span className="highlight">
+                    <span
+                        className="highlight"
+                        aria-label="Available Space Across"
+                    >
                         {availableSpace?.across || '-'}
                     </span>
                 </div>
                 <div>
                     Space Down:{' '}
-                    <span className="highlight">
+                    <span
+                        className="highlight"
+                        aria-label="Available Space Down"
+                    >
                         {availableSpace?.down || '-'}
                     </span>
                 </div>

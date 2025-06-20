@@ -6,6 +6,7 @@ type SolutionCellProps = {
     disabled?: boolean
     isRevealed?: boolean
     mode: BoardMode
+    ariaLabel: string
     onClick?: (cell: Cell) => void
 }
 
@@ -14,6 +15,7 @@ export const SolutionCell = ({
     disabled,
     isRevealed,
     mode,
+    ariaLabel,
     onClick,
 }: SolutionCellProps) => {
     const solutionChar =
@@ -21,6 +23,7 @@ export const SolutionCell = ({
     return (
         <div
             className="SolutionBox"
+            aria-label={ariaLabel}
             onClick={() => !disabled && onClick?.(cell)}
         >
             {(isRevealed || mode === 'view') && solutionChar}

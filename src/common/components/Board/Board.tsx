@@ -44,8 +44,9 @@ export const Board = ({ crossword, mode, onClick }: BoardProps) => {
                             board={crossword}
                             rowIndex={rowIndex}
                             mode={mode}
-                            onClick={onClick}
                             dimensions={dimensions}
+                            ariaLabel={`Row ${rowIndex + 1}`}
+                            onClick={onClick}
                         />
                     ))}
                 </tbody>

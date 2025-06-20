@@ -12,6 +12,7 @@ type BoardCellProps = {
     disabled?: boolean // Used in gameplay to disable user interaction
     mode: BoardMode
     dimensions?: { width: number; height: number }
+    ariaLabel: string
     onClick?: (cell: Cell) => void
 }
 
@@ -22,6 +23,7 @@ export const BoardCell = ({
     disabled,
     mode,
     dimensions,
+    ariaLabel,
     onClick,
 }: BoardCellProps) => {
     const className = 'BoardCell' + (mode === 'view' ? ' BoardCell--view' : '')
@@ -32,15 +34,23 @@ export const BoardCell = ({
                 isRevealed={isRevealed}
                 disabled={disabled}
                 mode={mode}
+                ariaLabel={ariaLabel}
                 onClick={onClick}
             />
         ))
         .with('clue', () => (
-            <ClueCell board={board} cell={cell} onClick={onClick} mode={mode} />
+            <ClueCell
+                board={board}
+                cell={cell}
+                onClick={onClick}
+                mode={mode}
+                ariaLabel={ariaLabel}
+            />
         ))
         .otherwise(() => (
             <div
                 className="EmptyBox"
+                aria-label={ariaLabel}
                 onClick={() => !disabled && onClick?.(cell)}
             ></div>
         ))
