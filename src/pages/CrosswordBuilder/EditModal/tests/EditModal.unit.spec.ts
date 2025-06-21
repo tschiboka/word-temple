@@ -1,6 +1,167 @@
 import { describe, it, expect } from 'vitest'
-import { transformEditFormData } from '../EditModal.transformers'
-import type { EditFormData } from '../../EditForm/EditForm.types'
+import { getAvailableSpace } from '../EditModal.utils'
+import type { CrosswordBoardResource, Cell } from '@common'
+import { EditFormData, transformEditFormData } from '..'
+
+describe('getAvailableSpace', () => {
+    // Helper function to create a test board with specific cells
+    const createTestBoard = (
+        rowNumber: number,
+        colNumber: number,
+        customCells?: Partial<Cell>[]
+    ): CrosswordBoardResource => {
+        const cells: Cell[][] = Array.from({ length: rowNumber }, (_, rowIndex) =>
+            Array.from({ length: colNumber }, (_, colIndex): Cell => ({
+                rowIndex,
+                colIndex,
+                role: 'empty',
+            }))
+        )
+
+        // Apply custom cells if provided
+        customCells?.forEach(cellOverride => {
+            if (cellOverride.rowIndex !== undefined && cellOverride.colIndex !== undefined) {
+                cells[cellOverride.rowIndex][cellOverride.colIndex] = {
+                    ...cells[cellOverride.rowIndex][cellOverride.colIndex],
+                    ...cellOverride,
+                }
+            }
+        })
+
+        return {
+            meta: {
+                createdBy: 'test',
+                title: 'Test Board',
+                description: 'Test board for getAvailableSpace tests',
+                dimensions: { rowNumber, colNumber },
+                difficulty: 1,
+                isActive: true,
+                tags: [],
+                language: 'en',
+            },
+            cells,
+        }
+    }
+
+    describe('Basic functionality', () => {
+        it('should calculate available space correctly for top-left corner', () => {
+            const board = createTestBoard(3, 3)
+            const result = getAvailableSpace(board, 0, 0)
+
+            expect(result).toEqual({
+                across: 2, // 3 cells total - 1 (current cell) = 2
+                down: 2,   // 3 cells total - 1 (current cell) = 2
+            })
+        })
+
+        it('should calculate available space correctly for center position', () => {
+            const board = createTestBoard(5, 5)
+            const result = getAvailableSpace(board, 2, 2)
+
+            expect(result).toEqual({
+                across: 2, // From position 2 to end (positions 2, 3, 4) - 1 = 2
+                down: 2,   // From position 2 to end (positions 2, 3, 4) - 1 = 2
+            })
+        })
+
+        it('should calculate available space correctly for bottom-right corner', () => {
+            const board = createTestBoard(4, 4)
+            const result = getAvailableSpace(board, 3, 3)
+
+            expect(result).toEqual({
+                across: 0, // Only current cell remaining - 1 = 0
+                down: 0,   // Only current cell remaining - 1 = 0
+            })
+        })
+
+        it('should calculate available space correctly for last row', () => {
+            const board = createTestBoard(3, 5)
+            const result = getAvailableSpace(board, 2, 1)
+
+            expect(result).toEqual({
+                across: 3, // From position 1 to end (positions 1, 2, 3, 4) - 1 = 3
+                down: 0,   // Only current cell in last row - 1 = 0
+            })
+        })
+
+        it('should calculate available space correctly for last column', () => {
+            const board = createTestBoard(5, 3)
+            const result = getAvailableSpace(board, 1, 2)
+
+            expect(result).toEqual({
+                across: 0, // Only current cell in last column - 1 = 0
+                down: 3,   // From position 1 to end (positions 1, 2, 3, 4) - 1 = 3
+            })
+        })
+    })
+
+    describe('With clue cells blocking', () => {
+        it('should exclude clue cells from across calculation', () => {
+            const board = createTestBoard(3, 5, [
+                { rowIndex: 1, colIndex: 2, role: 'clue' },
+                { rowIndex: 1, colIndex: 4, role: 'clue' },
+            ])
+            const result = getAvailableSpace(board, 1, 0)
+
+            expect(result).toEqual({
+                across: 2, // Positions 0, 1, 3 (excluding clue at position 2 and 4) - 1 = 2
+                down: 1,   // From row 1 to end (rows 1, 2) = 2 positions - 1 = 1
+            })
+        })
+
+        it('should exclude clue cells from down calculation', () => {
+            const board = createTestBoard(5, 3, [
+                { rowIndex: 2, colIndex: 1, role: 'clue' },
+                { rowIndex: 4, colIndex: 1, role: 'clue' },
+            ])
+            const result = getAvailableSpace(board, 0, 1)
+
+            expect(result).toEqual({
+                across: 1, // From position 1 to end (positions 1, 2) - 1 = 1
+                down: 2,   // Positions 0, 1, 3 (excluding clues at positions 2 and 4) - 1 = 2
+            })
+        })
+
+        it('should handle consecutive clue cells', () => {
+            const board = createTestBoard(4, 4, [
+                { rowIndex: 2, colIndex: 1, role: 'clue' },
+                { rowIndex: 2, colIndex: 2, role: 'clue' },
+                { rowIndex: 2, colIndex: 3, role: 'clue' },
+            ])
+            const result = getAvailableSpace(board, 2, 0)
+
+            expect(result).toEqual({
+                across: 0, // Only position 0 available (excluding clues at 1, 2, 3) - 1 = 0
+                down: 1,   // From position 2 to end (positions 2, 3) - 1 = 1
+            })
+        })
+
+        it('should include solution cells in available space calculation', () => {
+            const board = createTestBoard(3, 3, [
+                { rowIndex: 1, colIndex: 1, role: 'solution' },
+                { rowIndex: 1, colIndex: 2, role: 'solution' },
+            ])
+            const result = getAvailableSpace(board, 1, 0)
+
+            expect(result).toEqual({
+                across: 2, // All positions available (solutions are not excluded) - 1 = 2
+                down: 1,   // From row 1 to end (rows 1, 2) = 2 positions - 1 = 1
+            })
+        })
+
+        it('should include empty cells in available space calculation', () => {
+            const board = createTestBoard(3, 3, [
+                { rowIndex: 1, colIndex: 1, role: 'empty' },
+                { rowIndex: 1, colIndex: 2, role: 'empty' },
+            ])
+            const result = getAvailableSpace(board, 1, 0)   
+                expect(result).toEqual({
+                across: 2, // All positions available (empty cells are not excluded) - 1 = 2
+                down: 1,   // From row 1 to end (rows 1, 2) = 2 positions - 1 = 1
+            })
+        })
+    })
+})
 
 describe('transformEditFormData.toApi', () => {
     it('should transform empty cell data correctly', () => {
@@ -413,3 +574,4 @@ describe('getTextPlacement helper function', () => {
         })
     })
 })
+
