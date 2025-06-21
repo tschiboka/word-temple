@@ -19,6 +19,7 @@ export const CellPreview = ({ formData, board }: CellPreviewProps) => {
                             board={board}
                             cell={updatedCellPreview}
                             mode="view"
+                            ariaLabel={`Preview Cell`}
                         />
                     </tr>
                 </tbody>
