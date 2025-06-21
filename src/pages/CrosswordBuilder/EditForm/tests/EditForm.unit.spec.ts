@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { getDirectionOptions, getCellTypeOptions } from '../EditForm.defaults'
+import { getDirectionOptions, getCellTypeOptions, defaultEditFormData } from '../EditForm.defaults'
 import type { Cell } from '@common'
-import { directionFnTestBoard } from './EditForm.mocks'
+import { defaultEditFormDataFnCell, directionFnTestBoard } from './EditForm.mocks'
 
 describe('getDirectionOptions', () => {
     it('should return all direction options for a middle cell', () => {
@@ -86,5 +86,151 @@ describe('getCellTypeOptions', () => {
 
         expect(result).toHaveLength(1)
         expect(result[0]).toEqual({ value: 'solution', label: 'Solution' })
+    })
+})
+
+describe('defaultEditFormData', () => {
+    it('should return default form data when no cell is provided', () => {
+        const result = defaultEditFormData()
+        expect(result).toEqual(defaultEditFormDataFnCell)
+    })
+
+    it('should return form data based on empty cell', () => {
+        const cell: Cell = {
+            ...defaultEditFormDataFnCell,
+            rowIndex: 2,
+            colIndex: 3,
+            role: 'empty',
+        }
+
+        const result = defaultEditFormData(cell)
+
+        expect(result).toEqual({
+            rowIndex: 2,
+            colIndex: 3,
+            role: 'empty',
+            solution: '',
+            direction: undefined,
+            horizontalClueText: '',
+            verticalClueText: '',
+            imageUrl: '',
+            horizontalTextPlacement: 'center',
+            verticalTextPlacement: 'center',        })
+    })
+
+    it('should return form data based on solution cell', () => {
+        const cell: Cell = {
+            rowIndex: 1,
+            colIndex: 2,
+            role: 'solution',
+            solution: 'A',
+        }
+
+        const result = defaultEditFormData(cell)
+
+        expect(result).toEqual({
+            ...defaultEditFormDataFnCell,
+            rowIndex: 1,
+            colIndex: 2,
+            role: 'solution',
+            solution: 'A',
+        })
+    })    
+    
+    it('should return form data based on horizontal clue cell', () => {
+        const cell: Cell = {
+            rowIndex: 1,
+            colIndex: 1,
+            role: 'clue',
+            clueHorizontal: {
+                text: 'HORIZONTAL CLUE',
+                imageUrl: 'http://example.com/image.jpg',
+                textPlacement: {
+                    horizontal: 'left',
+                    vertical: 'top',
+                },
+            },
+        }
+
+        const result = defaultEditFormData(cell)
+
+        expect(result).toEqual({
+            ...defaultEditFormDataFnCell,
+            rowIndex: 1,
+            colIndex: 1,
+            role: 'clue',
+            direction: 'horizontal',
+            horizontalClueText: 'HORIZONTAL CLUE',
+            imageUrl: 'http://example.com/image.jpg',
+            horizontalTextPlacement: 'left',
+        })
+    })  
+    
+    it('should return form data based on vertical clue cell', () => {
+        const cell: Cell = {
+            rowIndex: 2,
+            colIndex: 1,
+            role: 'clue',
+            clueVertical: {
+                text: 'VERTICAL CLUE',
+                imageUrl: 'http://example.com/vertical.jpg',
+                textPlacement: {
+                    horizontal: 'right',
+                    vertical: 'bottom',
+                },
+            },
+        }
+
+        const result = defaultEditFormData(cell)
+
+        expect(result).toEqual({
+            ...defaultEditFormDataFnCell,
+            rowIndex: 2,
+            colIndex: 1,
+            role: 'clue',
+            direction: 'vertical',
+            verticalClueText: 'VERTICAL CLUE',
+            imageUrl: 'http://example.com/vertical.jpg',
+            verticalTextPlacement: 'bottom',
+        })
+    })    
+    
+    it('should return form data based on multidirection clue cell', () => {
+        const cell: Cell = {
+            rowIndex: 3,
+            colIndex: 2,
+            role: 'clue',
+            clueHorizontal: {
+                text: 'HORIZONTAL TEXT',
+                imageUrl: 'http://example.com/horizontal.jpg',
+                textPlacement: {
+                    horizontal: 'left',
+                    vertical: 'center',
+                },
+            },
+            clueVertical: {
+                text: 'VERTICAL TEXT',
+                imageUrl: 'http://example.com/vertical.jpg',
+                textPlacement: {
+                    horizontal: 'center',
+                    vertical: 'bottom',
+                },
+            },
+        }
+
+        const result = defaultEditFormData(cell)
+
+        expect(result).toEqual({
+            ...defaultEditFormDataFnCell,
+            rowIndex: 3,
+            colIndex: 2,
+            role: 'clue',
+            direction: 'multidirection',
+            horizontalClueText: 'HORIZONTAL TEXT',
+            verticalClueText: 'VERTICAL TEXT',
+            imageUrl: 'http://example.com/horizontal.jpg', // Uses horizontal imageUrl when both exist
+            horizontalTextPlacement: 'left',
+            verticalTextPlacement: 'bottom',
+        })
     })
 })

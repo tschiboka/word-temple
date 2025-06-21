@@ -1,8 +1,16 @@
+@use "../../../common/styles/palette.scss" as palette;
+
 .CellPreview {
     margin-top: auto;
     width: 100%;
     display: flex;
     justify-content: center;
+    
+    .EmptyBox,
+    .SolutionBox,
+    .ClueBox {
+        border: 1px solid palette.$black_2;
+    }
 
     table {
         width: 45px;
